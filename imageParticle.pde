@@ -5,7 +5,7 @@ int iW, iH;
 
 void setup() {
   size(800, 800, P3D);
-  imgJaga = loadImage("jagaimo.jpg");
+  imgJaga = loadImage("fall.jpg");
   iW = imgJaga.width;
   iH = imgJaga.height;
   pointColor = new color[iW][iH];
@@ -31,14 +31,15 @@ void draw() {
   // lightSpecular(5, 0, 0);
   // rotate(radians(random(-180, 180)), radians(30), 0, 0);
   shininess(1.0);
+  int baseNoise = frameCount;
   for(int i = 0; i < iW; i += intervalOfPixels){
     for(int j = 0; j < iH; j += intervalOfPixels){
-      shininess(random(0, 50.0));
+      shininess(20.0*cos(baseNoise) + 20.0);
       fill(pointColor[i][j]);
       specular(pointColor[i][j]);
       pushMatrix();
       translate(i, j, 0);
-      translate(random(10), random(10), 0);
+      translate(5.0*noise(cos(baseNoise/10.0) + i + width*j), 5.0*noise(sin(baseNoise/10.0) + i + width*j), 0);
       sphere(7);
       popMatrix();
     }
